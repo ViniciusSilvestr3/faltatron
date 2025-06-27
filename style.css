@@ -144,3 +144,8 @@ body {
 .delete-card-btn:hover {
   background-color: #c82333;
 }
+.dpcheck {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
