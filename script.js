@@ -54,6 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardDiv = document.createElement("div");
     cardDiv.className = "card";
     cardDiv.dataset.cardId = cardData.id;
+
+    // Adicionar classe para animação de entrada se for um novo card
+    if (cardData.isNew) {
+      cardDiv.classList.add("new-card");
+      delete cardData.isNew;
+    }
+
     const totalClasses = cardData.totalClasses || 20;
     const allowedAbsences = getMaxAbsences(totalClasses);
     const remaining = Math.max(0, allowedAbsences - cardData.totalAbsences);
@@ -66,6 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let remainingColor = "#007bff";
     let percentageColor = "#28a745";
+
+    // Adicionar destaque visual se estiver próximo do limite
+    if (remaining <= 2 && remaining > 0) {
+      cardDiv.classList.add("warning-highlight");
+    }
 
     if (remaining <= 0) {
       remainingColor = "red";
@@ -184,6 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cardData) {
       const totalClasses = cardData.totalClasses || 20;
       const allowedAbsences = getMaxAbsences(totalClasses);
+      const cardElement = document.querySelector(`[data-card-id="${cardId}"]`);
 
       // Verificar se já está no limite
       if (cardData.totalAbsences >= allowedAbsences) {
@@ -206,6 +219,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } else {
         cardData.totalAbsences += quantity;
+      }
+
+      // Adicionar feedback visual
+      if (cardElement) {
+        // Efeito de sucesso temporário
+        cardElement.classList.add("success-highlight");
+        setTimeout(() => {
+          cardElement.classList.remove("success-highlight");
+        }, 1000);
+
+        // Animação no botão
+        const addBtn = cardElement.querySelector(".add-absence-btn");
+        if (addBtn) {
+          addBtn.classList.add("interactive-element");
+        }
       }
 
       updateCardDisplay(cardId);
@@ -244,10 +272,34 @@ document.addEventListener("DOMContentLoaded", () => {
       subjectName: "📝 Clique para editar o nome da matéria",
       totalAbsences: 0,
       totalClasses: 20,
+      isNew: true, // Marca como novo para animação
     };
     cardsData.push(newCard);
     saveCardsToStorage();
     renderAllCards();
+
+    // Adicionar um pequeno delay para a animação
+    setTimeout(() => {
+      const newCardElement = document.querySelector(
+        `[data-card-id="${newCard.id}"]`
+      );
+      if (newCardElement) {
+        newCardElement.classList.add("interactive-element");
+        // Dar foco ao campo de nome para edição imediata
+        const nameField = newCardElement.querySelector(
+          ".editable-subject-name"
+        );
+        if (nameField) {
+          nameField.focus();
+          // Selecionar todo o texto placeholder
+          const range = document.createRange();
+          range.selectNodeContents(nameField);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+      }
+    }, 100);
   }
 
   function renderAllCards() {
@@ -325,4 +377,165 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.style.overflow = "auto";
     }
   });
+
+  // Melhorias de interação e experiência do usuário
+  // Adicionar efeito de sombra dinâmica baseada na posição do mouse
+  function addDynamicShadow(element) {
+    element.addEventListener("mousemove", (e) => {
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      const shadowX = -x / 10;
+      const shadowY = -y / 10;
+
+      element.style.boxShadow = `
+        ${shadowX}px ${shadowY}px 30px rgba(102, 126, 234, 0.3),
+        0 8px 32px rgba(0, 0, 0, 0.1)
+      `;
+    });
+
+    element.addEventListener("mouseleave", () => {
+      element.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.1)";
+    });
+  }
+
+  // Aplicar efeito de sombra dinâmica em cards
+  function applyDynamicEffects() {
+    const cards = document.querySelectorAll(".card");
+    cards.forEach((card) => {
+      if (!card.hasAttribute("data-dynamic-shadow")) {
+        addDynamicShadow(card);
+        card.setAttribute("data-dynamic-shadow", "true");
+      }
+    });
+  }
+
+  // Observer para novos cards
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === "childList") {
+        applyDynamicEffects();
+      }
+    });
+  });
+
+  // Observar mudanças no container de cards
+  const cardsContainerElement = document.getElementById("cardsContainer");
+  if (cardsContainerElement) {
+    observer.observe(cardsContainerElement, { childList: true, subtree: true });
+  }
+
+  // Aplicar efeitos iniciais
+  applyDynamicEffects();
+
+  // Melhorar feedback tátil para todos os elementos interativos
+  function enhanceInteractiveElements() {
+    const interactiveElements = document.querySelectorAll(
+      'button, input, [contenteditable="true"]'
+    );
+    interactiveElements.forEach((element) => {
+      if (!element.classList.contains("interactive-element")) {
+        element.classList.add("interactive-element");
+      }
+    });
+  }
+
+  // Aplicar melhorias periodicamente para elementos criados dinamicamente
+  setInterval(enhanceInteractiveElements, 1000);
+
+  // Efeito de digitação mais suave para campos editáveis
+  document.addEventListener("input", (e) => {
+    if (e.target.contentEditable === "true") {
+      e.target.style.transform = "scale(1.01)";
+      setTimeout(() => {
+        e.target.style.transform = "";
+      }, 150);
+    }
+  });
+
+  // Melhorar navegação por teclado
+  document.addEventListener("keydown", (e) => {
+    // Enter em campos editáveis para confirmar edição
+    if (e.key === "Enter" && e.target.contentEditable === "true") {
+      e.target.blur();
+    }
+
+    // Tab navigation melhorada
+    if (e.key === "Tab") {
+      const focusedElement = document.activeElement;
+      if (
+        focusedElement &&
+        focusedElement.classList.contains("interactive-element")
+      ) {
+        focusedElement.style.boxShadow = "0 0 0 3px rgba(102, 126, 234, 0.5)";
+        setTimeout(() => {
+          focusedElement.style.boxShadow = "";
+        }, 300);
+      }
+    }
+  });
+
+  // Animação suave para scroll
+  if (window.scrollTo) {
+    const originalScrollTo = window.scrollTo;
+    window.scrollTo = function (x, y) {
+      if (typeof x === "object") {
+        return originalScrollTo.call(this, { ...x, behavior: "smooth" });
+      }
+      return originalScrollTo.call(this, {
+        left: x,
+        top: y,
+        behavior: "smooth",
+      });
+    };
+  }
+
+  // Feedback visual para ações de salvamento
+  function showSaveIndicator() {
+    const header = document.querySelector(".header");
+    if (header) {
+      const indicator = document.createElement("div");
+      indicator.textContent = "💾 Salvo automaticamente";
+      indicator.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(40, 167, 69, 0.9);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 12px;
+        z-index: 1000;
+        opacity: 0;
+        transform: translateX(100px);
+        transition: all 0.3s ease;
+      `;
+
+      document.body.appendChild(indicator);
+
+      setTimeout(() => {
+        indicator.style.opacity = "1";
+        indicator.style.transform = "translateX(0)";
+      }, 10);
+
+      setTimeout(() => {
+        indicator.style.opacity = "0";
+        indicator.style.transform = "translateX(100px)";
+        setTimeout(() => {
+          document.body.removeChild(indicator);
+        }, 300);
+      }, 2000);
+    }
+  }
+
+  // Interceptar chamadas de localStorage para mostrar indicador
+  const originalSetItem = localStorage.setItem;
+  localStorage.setItem = function (key, value) {
+    const result = originalSetItem.call(this, key, value);
+    if (key.includes("faltatron")) {
+      showSaveIndicator();
+    }
+    return result;
+  };
 });

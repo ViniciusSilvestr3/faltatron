@@ -10,10 +10,17 @@
     <div class="header">
       <h1>Faltatron - Gerenciador de Faltas</h1>
       <div class="header-controls">
-        <button id="addCardButton" class="add-card-btn">
+        <button
+          id="addCardButton"
+          class="add-card-btn interactive-element tooltip"
+          data-tooltip="Clique para adicionar uma nova matéria"
+        >
           + Adicionar Nova Matéria
         </button>
-        <div class="attendance-input">
+        <div
+          class="attendance-input tooltip"
+          data-tooltip="Defina a porcentagem mínima de presença exigida"
+        >
           <label for="attendancePercentage">% Mínima de Presença:</label>
           <input
             type="number"
@@ -21,6 +28,7 @@
             min="50"
             max="100"
             value="75"
+            class="interactive-element"
           />
           <span>%</span>
         </div>
@@ -29,8 +37,12 @@
 
     <div id="cardsContainer" class="cards-container"></div>
 
-    <div class="donation" id="donationBox">
-      <p>💝 Apoie o projeto!</p>
+    <div
+      class="donation tooltip interactive-element"
+      id="donationBox"
+      data-tooltip="Clique para ampliar o QR Code"
+    >
+      <p class="blink-soft">💝 Apoie o projeto!</p>
       <img
         src="./qrcodepix.png"
         alt="QR Code PIX para doação"

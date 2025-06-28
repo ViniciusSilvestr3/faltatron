@@ -1,140 +1,378 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
-  padding: 20px;
-  background-color: #f5f5f5;
+  padding: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      circle at 20% 80%,
+      rgba(120, 119, 198, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 119, 198, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(120, 219, 255, 0.1) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+  z-index: -1;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+  animation: slideDownFade 0.8s ease-out;
+}
+
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .header h1 {
-  color: #333;
-  margin-bottom: 20px;
+  color: #2d3748;
+  margin-bottom: 25px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.header h1::after {
+  content: "🤖";
+  position: absolute;
+  right: -50px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(-50%);
+  }
+  40% {
+    transform: translateY(-70%);
+  }
+  60% {
+    transform: translateY(-65%);
+  }
 }
 
 .header-controls {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 25px;
   flex-wrap: wrap;
+  animation: slideUpFade 0.8s ease-out 0.3s both;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .attendance-input {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background-color: white;
-  padding: 8px 12px;
-  border-radius: 5px;
-  border: 2px solid #007bff;
+  gap: 10px;
+  background: linear-gradient(135deg, #ffffff, #f8f9ff);
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
   font-size: 14px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.attendance-input::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  z-index: -1;
+  margin: -2px;
+  border-radius: inherit;
+}
+
+.attendance-input:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.25);
+}
+
+.attendance-input:hover label {
+  color: #dadada;
 }
 
 .attendance-input label {
-  font-weight: bold;
-  color: #007bff;
+  font-weight: 600;
+  color: #4a5568;
   white-space: nowrap;
+  transition: color;
 }
 
 .attendance-input input {
-  width: 60px;
-  padding: 4px 6px;
-  border: 1px solid #ddd;
-  border-radius: 3px;
+  width: 70px;
+  padding: 8px 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
   text-align: center;
   font-size: 14px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.9);
+  color: #2d3748;
+  transition: all 0.3s ease;
+}
+
+.attendance-input input:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: scale(1.05);
 }
 
 .attendance-input span {
-  color: #007bff;
-  font-weight: bold;
+  color: #667eea;
+  font-weight: 700;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.attendance-input:hover span {
+  color: #5a67d8;
 }
 
 .add-card-btn {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 5px;
+  padding: 15px 30px;
+  border-radius: 50px;
   cursor: pointer;
   font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.add-card-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.add-card-btn:hover::before {
+  left: 100%;
 }
 
 .add-card-btn:hover {
-  background-color: #0056b3;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+}
+
+.add-card-btn:active {
+  transform: translateY(-1px) scale(1.02);
 }
 
 .cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  animation: fadeInUp 0.8s ease-out 0.5s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .card {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
-  width: 300px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   position: relative;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  animation: cardEntry 0.6s ease-out both;
+}
+
+@keyframes cardEntry {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.card:hover::before {
+  height: 6px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
 }
 
 .card h2 {
   font-size: 20px;
   margin: 0;
-  padding: 15px;
-  color: #333;
-  background-color: #f8f9fa;
-  width: 100%;
-  border-radius: 8px 8px 0 0;
+  padding: 20px;
+  color: #2d3748;
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.1),
+    rgba(255, 255, 255, 0.8)
+  );
+  border-radius: 20px 20px 0 0;
   box-sizing: border-box;
   cursor: text;
-  transition: background-color 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  position: relative;
+}
+
+.card h2::after {
+  content: "✏️";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%) scale(0.8);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: 16px;
 }
 
 .card h2:hover {
-  background-color: #e9ecef;
-  box-shadow: inset 0 0 0 1px #007bff;
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.15),
+    rgba(255, 255, 255, 0.9)
+  );
+  box-shadow: inset 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.card h2:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
 }
 
 .card h2:focus {
-  outline: 2px solid #007bff;
-  background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  border-radius: 15px;
 }
 
 .card h2:empty::before {
   content: "📝 Clique para editar o nome da matéria";
-  color: #6c757d;
+  color: #a0aec0;
   font-style: italic;
+  font-weight: 400;
 }
 
 .divisoria {
   width: 100%;
   height: 1px;
-  background-color: #ddd;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(102, 126, 234, 0.3),
+    transparent
+  );
   margin: 0;
 }
 
 .card-content {
-  padding: 20px;
+  padding: 25px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -142,120 +380,202 @@ body {
 .total-classes-input {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 15px;
-  padding: 8px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  border: 1px solid #ddd;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.05),
+    rgba(255, 255, 255, 0.8)
+  );
+  border-radius: 15px;
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  transition: all 0.3s ease;
+}
+
+.total-classes-input:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.08),
+    rgba(255, 255, 255, 0.9)
+  );
+  border-color: rgba(102, 126, 234, 0.2);
+  transform: translateY(-2px);
 }
 
 .total-classes-input label {
-  font-weight: bold;
-  color: #495057;
+  font-weight: 600;
+  color: #4a5568;
   font-size: 14px;
   white-space: nowrap;
 }
 
 .total-classes-input input {
-  width: 60px;
-  padding: 4px 6px;
-  border: 1px solid #ced4da;
-  border-radius: 3px;
+  width: 70px;
+  padding: 10px 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
   text-align: center;
   font-size: 14px;
-  background-color: white;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.9);
+  color: #2d3748;
+  transition: all 0.3s ease;
 }
 
 .total-classes-input input:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: scale(1.05);
 }
 
 .attendance-info {
-  margin-bottom: 15px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  border-left: 4px solid #007bff;
+  margin-bottom: 20px;
+  padding: 18px;
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.08),
+    rgba(255, 255, 255, 0.6)
+  );
+  border-radius: 15px;
+  border-left: 4px solid #667eea;
+  position: relative;
+  overflow: hidden;
+}
+
+.attendance-info::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
 }
 
 .percentage-display {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 14px;
+  font-weight: 500;
 }
 
 .current-percentage {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(102, 126, 234, 0.2);
 }
 
 .required-info {
-  color: #6c757d;
+  color: #718096;
   font-size: 12px;
   font-style: italic;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 2px 8px;
+  border-radius: 10px;
 }
 
-.card-content span {
-  display: inline-block;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
+.card-content span,
 .card-content p {
   display: inline-block;
-  margin: 5px 0;
-  font-weight: bold;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #4a5568;
+  padding: 8px 12px;
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.card-content span:hover,
+.card-content p:hover {
+  background: rgba(102, 126, 234, 0.1);
+  transform: translateX(5px);
 }
 
 .card-buttons {
   display: flex;
-  gap: 10px;
-  margin-top: 15px;
+  gap: 15px;
+  margin-top: 25px;
   justify-content: center;
 }
 
 .btn {
-  padding: 8px 16px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 4px;
+  border-radius: 25px;
   cursor: pointer;
   font-size: 14px;
-  font-weight: bold;
-  transition: all 0.2s;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
 }
 
 .btn-success {
-  background-color: #28a745;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
   color: white;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
 }
 
 .btn-success:hover {
-  background-color: #218838;
+  background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
 }
 
 .delete-card-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #dc3545;
+  top: 15px;
+  right: 15px;
+  background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
   color: white;
   border: none;
   border-radius: 50%;
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+  z-index: 10;
 }
 
 .delete-card-btn:hover {
-  background-color: #c82333;
+  background: linear-gradient(135deg, #e83e8c 0%, #dc3545 100%);
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
 }
 
 /* Seção de doação no canto inferior */
@@ -525,4 +845,282 @@ body {
   outline: none;
   border-color: #28a745;
   box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25);
+}
+
+/* Efeitos visuais avançados e micro-interações */
+
+/* Indicador de loading para botões */
+.btn:active {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  animation: ripple 0.6s linear;
+}
+
+@keyframes ripple {
+  to {
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+  }
+}
+
+/* Efeito de pulsação para campos editáveis quando vazios */
+.card h2:empty {
+  animation: pulse-subtle 2s infinite;
+}
+
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+  }
+}
+
+/* Efeito de shimmer para indicar carregamento */
+.card:not(:hover) .card-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 2s;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.card:hover .card-content::before {
+  left: 100%;
+}
+
+/* Melhor indicação visual para inputs em foco */
+.total-classes-input input:focus,
+.absence-quantity:focus,
+.attendance-input input:focus {
+  position: relative;
+  z-index: 2;
+}
+
+.total-classes-input input:focus::after,
+.absence-quantity:focus::after,
+.attendance-input input:focus::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+  border-radius: inherit;
+  z-index: -1;
+  animation: rotate-border 2s linear infinite;
+}
+
+@keyframes rotate-border {
+  0% {
+    background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+  }
+  25% {
+    background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c);
+  }
+  50% {
+    background: linear-gradient(225deg, #667eea, #764ba2, #f093fb, #f5576c);
+  }
+  75% {
+    background: linear-gradient(315deg, #667eea, #764ba2, #f093fb, #f5576c);
+  }
+  100% {
+    background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+  }
+}
+
+/* Animação de entrada suave para novos cards */
+.card.new-card {
+  animation: cardEntryBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+}
+
+@keyframes cardEntryBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.3) rotateX(90deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-10px) scale(1.05) rotateX(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg);
+  }
+}
+
+/* Efeito de destaque quando próximo do limite */
+.warning-highlight {
+  position: relative;
+}
+
+.warning-highlight::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff6b6b, #feca57, #ff9ff3, #54a0ff);
+  border-radius: inherit;
+  z-index: -1;
+  animation: warning-pulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes warning-pulse {
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* Efeito de sucesso */
+.success-highlight {
+  position: relative;
+  overflow: hidden;
+}
+
+.success-highlight::after {
+  content: "✅";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  opacity: 0;
+  animation: successPop 1s ease-out;
+}
+
+@keyframes successPop {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(180deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Melhor responsividade para dispositivos pequenos */
+@media (max-width: 600px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .header h1::after {
+    right: -35px;
+    font-size: 1.5rem;
+  }
+
+  .header-controls {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .cards-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 15px;
+  }
+
+  .card:hover {
+    transform: translateY(-5px) scale(1.01);
+  }
+}
+
+/* Efeito de piscada suave para elementos importantes */
+.blink-soft {
+  animation: blinkSoft 3s ease-in-out infinite;
+}
+
+@keyframes blinkSoft {
+  0%,
+  90%,
+  100% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 0.6;
+  }
+}
+
+/* Micro animação para melhorar feedback tátil */
+.interactive-element {
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.interactive-element:active {
+  transform: scale(0.98);
+}
+
+/* Sombra dinâmica baseada na posição do mouse */
+.card.dynamic-shadow {
+  transition: box-shadow 0.3s ease;
+}
+
+/* Melhor acessibilidade com indicadores visuais */
+.card h2:focus-visible {
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.5);
+  border-radius: 15px;
+  outline: 2px solid transparent;
+}
+
+/* Tooltip estilizado */
+.tooltip {
+  position: relative;
+  cursor: help;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(45, 55, 72, 0.95);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
 }
