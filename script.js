@@ -292,4 +292,37 @@ document.addEventListener("DOMContentLoaded", () => {
   loadAttendancePercentage();
   loadCardsFromStorage();
   renderAllCards();
+
+  // Controle do modal de doação
+  const donationBox = document.getElementById("donationBox");
+  const donationModal = document.getElementById("donationModal");
+  const closeModal = document.getElementById("closeModal");
+
+  // Abrir modal ao clicar na caixa de doação
+  donationBox.addEventListener("click", () => {
+    donationModal.classList.add("show");
+    document.body.style.overflow = "hidden"; // Impede scroll do body
+  });
+
+  // Fechar modal ao clicar no X
+  closeModal.addEventListener("click", () => {
+    donationModal.classList.remove("show");
+    document.body.style.overflow = "auto"; // Restaura scroll do body
+  });
+
+  // Fechar modal ao clicar fora do conteúdo
+  donationModal.addEventListener("click", (e) => {
+    if (e.target === donationModal) {
+      donationModal.classList.remove("show");
+      document.body.style.overflow = "auto";
+    }
+  });
+
+  // Fechar modal com ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && donationModal.classList.contains("show")) {
+      donationModal.classList.remove("show");
+      document.body.style.overflow = "auto";
+    }
+  });
 });
