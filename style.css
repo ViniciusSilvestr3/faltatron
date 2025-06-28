@@ -243,8 +243,53 @@ body {
 .delete-card-btn:hover {
   background-color: #c82333;
 }
+
+/* Responsividade para o grupo de input de faltas */
+@media (max-width: 480px) {
+  .absence-input-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .absence-quantity {
+    width: 70px;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    font-size: 15px;
+  }
+}
+
 .dpcheck {
   color: red;
   font-weight: bold;
   margin-top: 10px;
+}
+
+.absence-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f8f9fa;
+  padding: 6px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.absence-quantity {
+  width: 50px;
+  padding: 6px 8px;
+  border: 1px solid #ced4da;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 14px;
+  background-color: white;
+  font-weight: bold;
+}
+
+.absence-quantity:focus {
+  outline: none;
+  border-color: #28a745;
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25);
 }

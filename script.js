@@ -109,7 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
         : ""
     }
         <div class="card-buttons">
-          <button class="btn btn-success add-absence-btn" >+ Adicionar Falta</button>
+          <div class="absence-input-group">
+            <input type="number" class="absence-quantity" value="1" min="1" max="10" title="Número de faltas para adicionar">
+            <button class="btn btn-success add-absence-btn">+ Adicionar Falta(s)</button>
+          </div>
         </div>
       </div>`;
     return cardDiv;
@@ -176,18 +179,35 @@ document.addEventListener("DOMContentLoaded", () => {
     saveCardsToStorage();
   }
 
-  function addAbsence(cardId) {
+  function addAbsence(cardId, quantity = 1) {
     const cardData = cardsData.find((card) => card.id === cardId);
     if (cardData) {
       const totalClasses = cardData.totalClasses || 20;
       const allowedAbsences = getMaxAbsences(totalClasses);
+
+      // Verificar se já está no limite
       if (cardData.totalAbsences >= allowedAbsences) {
         alert(
           `🚨 ATENÇÃO! Você já atingiu o limite de ${allowedAbsences} faltas em ${cardData.subjectName}! MAIS UMA É DP PAIZÃO! 🚨`
         );
         return;
       }
-      cardData.totalAbsences++;
+
+      // Verificar se a quantidade solicitada não ultrapassa o limite
+      const remainingAbsences = allowedAbsences - cardData.totalAbsences;
+      if (quantity > remainingAbsences) {
+        const confirmAdd = confirm(
+          `⚠️ ATENÇÃO! Você está tentando adicionar ${quantity} faltas, mas só pode adicionar ${remainingAbsences} em ${cardData.subjectName} antes da DP.\n\nDeseja adicionar apenas ${remainingAbsences} falta(s)?`
+        );
+        if (confirmAdd) {
+          cardData.totalAbsences += remainingAbsences;
+        } else {
+          return;
+        }
+      } else {
+        cardData.totalAbsences += quantity;
+      }
+
       updateCardDisplay(cardId);
     }
   }
@@ -243,11 +263,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const totalClassesInput = cardElement.querySelector(
         ".total-classes-field"
       );
+      const absenceQuantityInput =
+        cardElement.querySelector(".absence-quantity");
 
       editableSubjectName.addEventListener("blur", () => {
         updateSubjectName(cardData.id, editableSubjectName.textContent);
       });
-      addAbsenceBtn.addEventListener("click", () => addAbsence(cardData.id));
+      addAbsenceBtn.addEventListener("click", () => {
+        const quantity = parseInt(absenceQuantityInput.value) || 1;
+        addAbsence(cardData.id, quantity);
+      });
       deleteBtn.addEventListener("click", function () {
         deleteCard(cardData.id);
       });
