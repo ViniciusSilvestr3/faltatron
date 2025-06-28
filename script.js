@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cardsData = [
         {
           id: generateCardId(),
-          subjectName: "Nome da Matéria",
+          subjectName: "📝 Clique para editar o nome da matéria",
           totalAbsences: 0,
           totalClasses: 20,
         },
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cardDiv.innerHTML = `
       <button class="delete-card-btn" title="Excluir matéria">×</button>
-      <h2 contenteditable="true" class="editable-subject-name">${
+      <h2 contenteditable="true" class="editable-subject-name" title="Clique para editar o nome da matéria" data-placeholder="Clique para editar...">${
         cardData.subjectName
       }</h2>
       <span class="divisoria"></span>
@@ -241,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function addNewCard() {
     const newCard = {
       id: generateCardId(),
-      subjectName: "Nova Matéria",
+      subjectName: "📝 Clique para editar o nome da matéria",
       totalAbsences: 0,
       totalClasses: 20,
     };
