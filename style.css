@@ -15,6 +15,45 @@ body {
   margin-bottom: 20px;
 }
 
+.header-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.attendance-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 2px solid #007bff;
+  font-size: 14px;
+}
+
+.attendance-input label {
+  font-weight: bold;
+  color: #007bff;
+  white-space: nowrap;
+}
+
+.attendance-input input {
+  width: 60px;
+  padding: 4px 6px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.attendance-input span {
+  color: #007bff;
+  font-weight: bold;
+}
+
 .add-card-btn {
   background-color: #007bff;
   color: white;
@@ -84,6 +123,66 @@ body {
   padding: 20px;
   width: 100%;
   box-sizing: border-box;
+}
+
+.total-classes-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.total-classes-input label {
+  font-weight: bold;
+  color: #495057;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.total-classes-input input {
+  width: 60px;
+  padding: 4px 6px;
+  border: 1px solid #ced4da;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 14px;
+  background-color: white;
+}
+
+.total-classes-input input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.attendance-info {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  border-left: 4px solid #007bff;
+}
+
+.percentage-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.current-percentage {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.required-info {
+  color: #6c757d;
+  font-size: 12px;
+  font-style: italic;
 }
 
 .card-content span {
